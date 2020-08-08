@@ -122,12 +122,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">4</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">5</span></a>
 
   </li>
   </ul>
@@ -157,6 +157,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaozhu99.github.io/2020/08/08/%E8%B4%9F%E6%95%B0%E5%8F%96%E6%A8%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pig_avatar.jpg">
+      <meta itemprop="name" content="巴啦啦小猪猪">
+      <meta itemprop="description" content="有没有你还是那个我，有没有你还一样地过">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liu小猪の日常逼逼赖赖">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/08/%E8%B4%9F%E6%95%B0%E5%8F%96%E6%A8%A1/" class="post-title-link" itemprop="url">负数取模</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-08 20:48:00 / 修改时间：21:13:47" itemprop="dateCreated datePublished" datetime="2020-08-08T20:48:00+08:00">2020-08-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/L%E5%B0%8F%E7%8C%AA%E6%97%A5%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">L小猪日记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p> 这是今天在做力扣的时候，遇到一道题 <strong>整数反转</strong> 题目是这么说的：</p>
+<p><strong>给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。    还要考虑溢出的情况，溢出就返回0</strong></p>
+<p>正数的取模是很容易呀，从最后一位取模依次往前算不就完了嘛。但是，负数呢….</p>
+<p>这还真的触及我的知识盲区了，之前似乎做过这道题，但是那会还很顺利，今天一细想，负数取模的原理是啥呀？？？还真不知道，于是打开百度，找到了答案。 <a target="_blank" rel="noopener" href="https://blog.csdn.net/zhige_me/article/details/80980566">👴找的资料</a></p>
+<p>在所有计算机系统中，取模运算都满足以下式子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; nq + r  |r| &lt; |a|</span><br><span class="line">假设 q 是 a、n 相除得到的商(quotient)，r 是相应的余数(remainder)</span><br></pre></td></tr></table></figure>
+
+<p> 这个当然是很好理解的呀，小学老师也是这么教的对不？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; nq + r </span><br><span class="line">我们知道商 q &#x3D; a&#x2F;n，从而得出</span><br><span class="line">r &#x3D; a - (a&#x2F;n) * n</span><br><span class="line">而 (a&#x2F;n) 这个结果取决于上面几种方式用哪个</span><br></pre></td></tr></table></figure>
+
+<p>关键就是这个 <strong>q，也就是a/n</strong> 它是怎么算出来的。正数的很好算，全世界都很统一，毕竟这是咱小学就开始学的，对吧。。。</p>
+<p>但是负数呢？            于是闲的没事的计算机科学家们就想出了这么些个法子，一共三个。</p>
+<p><strong>向上取整</strong>。向 +∞ 方向取最接近精确值的整数，也就是取比实际结果稍大的最小整数，也叫 <strong>Ceiling</strong> 取整。这种取整方式下，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">17 &#x2F; 10 &#x3D; 2，5 &#x2F; 2 &#x3D; 3, -9 &#x2F; 4 &#x3D; -2</span><br></pre></td></tr></table></figure>
+
+<p> <strong>向下取整</strong>。向 -∞ 方向取最接近精确值的整数，也就是取比实际结果稍小的最大整数，也叫 <strong>Floor</strong> 取整。这种取整方式下，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">17 &#x2F; 10 &#x3D; 1，5 &#x2F; 2 &#x3D; 2, -9 &#x2F; 4 &#x3D; -3</span><br></pre></td></tr></table></figure>
+
+<p><strong>向零取整</strong>。向 0 方向取最接近精确值的整数，换言之就是舍去小数部分，因此又称截断取整（__Truncate__）。这种取整方式下，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">17 &#x2F; 10 &#x3D; 1，5 &#x2F; 2 &#x3D; 2, -9 &#x2F; 4 &#x3D; -2</span><br></pre></td></tr></table></figure>
+
+<p>你看正数的是不是都很统一，就是这个负数的不一样对不？所以就搞得这个取模运算，不同取整的方法，负数取模的结果也不一样。</p>
+<p>常用的计算机语言用的除法方式是下面这两种，<strong>truncate 除法</strong> 和 <strong>floor 除法</strong>。</p>
+<p><strong>truncate 除法</strong> 即是上面的向零取整，也叫趋零截尾，而 <strong>floor 除法</strong> 即是上面的向下取整，也叫趋负无穷截尾。</p>
+<p>而 Java/C 等语言用的是 truncate 除法，Python 用的是 floor 除法。</p>
+<p>在C/JAVA中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-7 % 3 &#x3D; -1</span><br><span class="line">7 % (-3) &#x3D; 1 </span><br><span class="line">&#x2F;&#x2F; 下面是推倒过程</span><br><span class="line">-7 % 3 &#x3D; -7 - trunc(-7&#x2F;3) * 3 &#x3D; -7 - (-2) * 3 &#x3D; -7 + 6 &#x3D; -1</span><br><span class="line">7 % (-3) &#x3D; 7 - trunc(7 &#x2F; (-3)) * (-3) &#x3D; 7 - (-2) * (-3) &#x3D; 7 - 6 &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在Python中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-7 % 3 &#x3D; 2</span><br><span class="line">7 % (-3) &#x3D; -2</span><br><span class="line">## 下面是推倒过程</span><br><span class="line">-7 % 3 &#x3D; -7 - floor(-7&#x2F;3) * 3 &#x3D; -7 - (-3) * 3 &#x3D; -7 + 9 &#x3D; 2</span><br><span class="line">7 % (-3) &#x3D;  7 - floor(7 &#x2F; (-3)) * (-3) &#x3D; 7 - (-3) * (-3) &#x3D; 7 - 9 &#x3D; -2</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>总结一下：在C/JAVA语言中，正数的取模很好说。负数的取模（a%b）,先用截断取整 算a/b = q，那么余数r = a - q*b.</strong></p>
+<p><strong>简单记就是这样式滴：先把俩数全当正数取模，然后得考虑符号对不？余数的符号同被除数（就是那个a）就完啦 !!!</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://liuxiaozhu99.github.io/2020/08/04/%E4%BA%8C%E5%8F%89%E6%A0%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -180,10 +284,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-04 15:16:33 / 修改时间：23:29:45" itemprop="dateCreated datePublished" datetime="2020-08-04T15:16:33+08:00">2020-08-04</time>
+              <time title="创建时间：2020-08-04 15:16:33" itemprop="dateCreated datePublished" datetime="2020-08-04T15:16:33+08:00">2020-08-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-05 17:45:58" itemprop="dateModified" datetime="2020-08-05T17:45:58+08:00">2020-08-05</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -238,6 +348,37 @@
 <hr>
 <p><strong>REFLECTION</strong><br>为啥lzj现在理解迭代算法这么费劲？？？我猜可能是他对迭代的思想的了解与理解不够深入，是不是要去了解下迭代呢？之前理解递归也不是很顺利，但是至少现在好些了，大概是接触到的，看到的多了些叭             在理解算法到时候，理解其本质的思想很重要呀！<br> <strong>Long long way to go….</strong></p>
 <hr>
+<h3 id="Morris解法"><a href="#Morris解法" class="headerlink" title="Morris解法"></a>Morris解法</h3><p>这个算法由Joseph Morris 于1979年发明。利用大量指向NULL的指针,直接都没要栈来模拟。</p>
+<p>时间复杂度：O（n）        空间复杂度：O（1）</p>
+<p>整体思路是 以某个根结点开始，找到它左子树的最右侧结点，并让该结点的right指针指向这个根结点，如此向下的每一层。</p>
+<p><strong>模板代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">void preOrderMorris(TreeNode* head)</span><br><span class="line">&#123;</span><br><span class="line">    if(head &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">    return;</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode* cur1 &#x3D; head;     &#x2F;&#x2F;当前的，将要开始遍历的节点</span><br><span class="line">    TreeNode* cur2 &#x3D; NULL;    &#x2F;&#x2F;记录当前左子树的结点</span><br><span class="line">    while(cur1 !&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        cur2 &#x3D; cur2-left;</span><br><span class="line">        if(cur2 !&#x3D; NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            while(cur2-&gt;right !&#x3D; NULL &amp;&amp; cur2-&gt;right ！&#x3D; cur1)        &#x2F;&#x2F;找到当前左子树的最右边的结点，而且这个结点的right指针不能指向根节点，要不就又回到根节点去了，死循环。。</span><br><span class="line">            &#123;</span><br><span class="line">                cur2 &#x3D; cur2-&gt;right;</span><br><span class="line">            &#125;</span><br><span class="line">            if(cur2-&gt;right &#x3D;&#x3D; NULL)</span><br><span class="line">            &#123;    &#x2F;&#x2F;这个情况就是找到了当前根节点的左子树的最右边的结点</span><br><span class="line">                cur2-&gt;right &#x3D; cur1;    &#x2F;&#x2F;连接这个最右边结点到根节点</span><br><span class="line">                cur1 &#x3D; cur1-&gt;left;    &#x2F;&#x2F;目光聚焦到这个左子树，把他的根结点标记为cur1,是将要开始遍历的结点</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;    &#x2F;&#x2F;这个情况就是左子树的最右侧结点有指向根结点啦，意思就是已经回到根结点并重复了之前的操作了，就要把这个连接给断掉啦，然后我们就要执行cur1 &#x3D; cur1-&gt;right，让cur1右移，遍历右子树</span><br><span class="line">                cur2-&gt;right &#x3D; NULL;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cur1 &#x3D; cur1-&gt;right</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="前序遍历-2"><a href="#前序遍历-2" class="headerlink" title="前序遍历"></a>前序遍历</h4><p>因为咱们是顺着左子树来遍历，创建连接根节点的，而且创建连接也只创建一次。所以就在创建连接的时候，打印那个根节点</p>
+<p>打印那些没法生出左子树的（要么是叶节点，要么就是只有右子树的非叶结点）</p>
+<p><strong>代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">void preOrderMorris(TreeNode* head)</span><br><span class="line">&#123;</span><br><span class="line">    if(head &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">    return;</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode* cur1 &#x3D; head;     &#x2F;&#x2F;当前的，将要开始遍历的节点</span><br><span class="line">    TreeNode* cur2 &#x3D; NULL;    &#x2F;&#x2F;记录当前左子树的结点</span><br><span class="line">    while(cur1 !&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        cur2 &#x3D; cur2-left;</span><br><span class="line">        if(cur2 !&#x3D; NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            while(cur2-&gt;right !&#x3D; NULL &amp;&amp; cur2-&gt;right ！&#x3D; cur1)        &#x2F;&#x2F;找到当前左子树的最右边的结点，而且这个结点的right指针不能指向根节点，要不就又回到根节点去了，死循环。。</span><br><span class="line">            &#123;</span><br><span class="line">                cur2 &#x3D; cur2-&gt;right;</span><br><span class="line">            &#125;</span><br><span class="line">            if(cur2-&gt;right &#x3D;&#x3D; NULL)</span><br><span class="line">            &#123;    &#x2F;&#x2F;这个情况就是找到了当前根节点的左子树的最右边的结点</span><br><span class="line">                cur2-&gt;right &#x3D; cur1;    &#x2F;&#x2F;连接这个最右边结点到根节点</span><br><span class="line">                cout&lt;&lt;cur1-&gt;val&lt;&lt;&quot; &quot;;        &#x2F;***打印输出***&#x2F;</span><br><span class="line">                cur1 &#x3D; cur1-&gt;left;    &#x2F;&#x2F;目光聚焦到这个左子树，把他的根结点标记为cur1,是将要开始遍历的结点</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;    &#x2F;&#x2F;这个情况就是左子树的最右侧结点有指向根结点啦，意思就是已经回到根结点并重复了之前的操作了，就要把这个连接给断掉啦，然后我们就要执行cur1 &#x3D; cur1-&gt;right，让cur1右移，遍历右子树</span><br><span class="line">                cur2-&gt;right &#x3D; NULL;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            cout&lt;&lt;cur1-&gt;val&lt;&lt;&quot; &quot;;        &#x2F;***打印输出***&#x2F;</span><br><span class="line">        &#125;</span><br><span class="line">        cur1 &#x3D; cur1-&gt;right</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="中序遍历-2"><a href="#中序遍历-2" class="headerlink" title="中序遍历"></a>中序遍历</h4><p>就是从左往右打印，也即在子树遍历完切换cur1（教程说：将cu1切换到上层节点 但是切换到右子树开始遍历的时候不能说上层叭）的时候打印</p>
+<p><strong>代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">void preOrderMorris(TreeNode* head)</span><br><span class="line">&#123;</span><br><span class="line">    if(head &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">    return;</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode* cur1 &#x3D; head;     &#x2F;&#x2F;当前的，将要开始遍历的节点</span><br><span class="line">    TreeNode* cur2 &#x3D; NULL;    &#x2F;&#x2F;记录当前左子树的结点</span><br><span class="line">    while(cur1 !&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        cur2 &#x3D; cur2-left;</span><br><span class="line">        if(cur2 !&#x3D; NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            while(cur2-&gt;right !&#x3D; NULL &amp;&amp; cur2-&gt;right ！&#x3D; cur1)        &#x2F;&#x2F;找到当前左子树的最右边的结点，而且这个结点的right指针不能指向根节点，要不就又回到根节点去了，死循环。。</span><br><span class="line">            &#123;</span><br><span class="line">                cur2 &#x3D; cur2-&gt;right;</span><br><span class="line">            &#125;</span><br><span class="line">            if(cur2-&gt;right &#x3D;&#x3D; NULL)</span><br><span class="line">            &#123;    &#x2F;&#x2F;这个情况就是找到了当前根节点的左子树的最右边的结点</span><br><span class="line">                cur2-&gt;right &#x3D; cur1;    &#x2F;&#x2F;连接这个最右边结点到根节点</span><br><span class="line">                cur1 &#x3D; cur1-&gt;left;    &#x2F;&#x2F;目光聚焦到这个左子树，把他的根结点标记为cur1,是将要开始遍历的结点</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;    &#x2F;&#x2F;这个情况就是左子树的最右侧结点有指向根结点啦，意思就是已经回到根结点并重复了之前的操作了，就要把这个连接给断掉啦，然后我们就要执行cur1 &#x3D; cur1-&gt;right，让cur1右移，遍历右子树</span><br><span class="line">                cur2-&gt;right &#x3D; NULL;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;cur1-&gt;val&lt;&lt;&quot; &quot;;</span><br><span class="line">        cur1 &#x3D; cur1-&gt;right</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="后序遍历-2"><a href="#后序遍历-2" class="headerlink" title="后序遍历"></a>后序遍历</h4><p>如图 （图片来源：摘抄的题解）</p>
+<p><img src="https://pic.leetcode-cn.com/4b023cabcbfc58580127db3bd244a6b9d7f1060b899faa510c7366a5a51cce45.png" alt="图"></p>
+<p>当我们到达最左侧，也就是左边连线已经创建完毕了。<br>打印 4<br>打印 5 2<br>打印 6<br>打印 7 3 1<br>我们将一个节点的连续右节点当成一个单链表来看待。<br>当我们返回上层之后，也就是将连线断开的时候，打印下层的单链表。<br>比如返回到　２，此时打印　４<br>比如返回到　１，此时打印　５　２<br>比如返回到　３，此时打印　６</p>
+<p>也就只需要把每个单链表逆序打印就行了</p>
+<p>这里不应该打印当前层，而是下一层，否则根结点会先与右边打印。</p>
+<p>就好像把树从左到右切分成几列，然后依次逆序打印</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">void preOrderMorris(TreeNode* head)</span><br><span class="line">&#123;</span><br><span class="line">    if(head &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">    return;</span><br><span class="line">    &#125;</span><br><span class="line">    TreeNode* cur1 &#x3D; head;     &#x2F;&#x2F;当前的，将要开始遍历的节点</span><br><span class="line">    TreeNode* cur2 &#x3D; NULL;    &#x2F;&#x2F;记录当前左子树的结点</span><br><span class="line">    while(cur1 !&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        cur2 &#x3D; cur2-left;</span><br><span class="line">        if(cur2 !&#x3D; NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            while(cur2-&gt;right !&#x3D; NULL &amp;&amp; cur2-&gt;right ！&#x3D; cur1)    </span><br><span class="line">                cur2 &#x3D; cur2-&gt;right;</span><br><span class="line">            &#125;</span><br><span class="line">            if(cur2-&gt;right &#x3D;&#x3D; NULL)</span><br><span class="line">            &#123;    </span><br><span class="line">                cur2-&gt;right &#x3D; cur1;    </span><br><span class="line">                cur1 &#x3D; cur1-&gt;left;    </span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;    </span><br><span class="line">                cur2-&gt;right &#x3D; NULL;</span><br><span class="line">                postMorrisPrint(cur1-&gt;left);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cur1 &#x3D; cur1-&gt;right</span><br><span class="line">    &#125;</span><br><span class="line">    postMorrisPrint(head);        &#x2F;&#x2F;这个所有的都遍历打印完了之后，逆序打印最右边的一列。</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;打印函数</span><br><span class="line">void postMorrisPrint(TreeNode* head)</span><br><span class="line">&#123;</span><br><span class="line">    TreeNode* reverseList &#x3D; postMorrisReverseList(head);</span><br><span class="line">    TreeNode* cur &#x3D; reverseList;</span><br><span class="line">    while (cur !&#x3D; null) &#123;</span><br><span class="line">        cout&lt;&lt;cur-&gt;val&lt;&lt;&quot; &quot;;</span><br><span class="line">        cur &#x3D; cur-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line">    postMorrisReverseList(reverseList);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;翻转单链表</span><br><span class="line">public static TreeNode postMorrisReverseList(TreeNode* head) &#123;</span><br><span class="line">    TreeNode* cur &#x3D; head;</span><br><span class="line">    TreeNode* pre &#x3D; null;</span><br><span class="line">    while (cur !&#x3D; null) &#123;</span><br><span class="line">        TreeNode* next &#x3D; cur-&gt;right;</span><br><span class="line">        cur-&gt;right &#x3D; pre;</span><br><span class="line">        pre &#x3D; cur;</span><br><span class="line">        cur &#x3D; next;</span><br><span class="line">    &#125;</span><br><span class="line">    return pre;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 
       
     </div>
@@ -561,14 +702,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
