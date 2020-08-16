@@ -127,7 +127,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">5</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">6</span></a>
 
   </li>
   </ul>
@@ -153,6 +153,98 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaozhu99.github.io/2020/08/16/DFS-BFS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pig_avatar.jpg">
+      <meta itemprop="name" content="巴啦啦小猪猪">
+      <meta itemprop="description" content="有没有你还是那个我，有没有你还一样地过">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liu小猪の日常逼逼赖赖">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/16/DFS-BFS/" class="post-title-link" itemprop="url">DFS & BFS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-16 09:33:36 / 修改时间：11:10:45" itemprop="dateCreated datePublished" datetime="2020-08-16T09:33:36+08:00">2020-08-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>还是在玩力扣的时候，看到一道题，需要__深度优先搜索（DFS）__和__广度优先搜索（BFS）__算法。参考别人的教程与《算法导论》学习了这两种算法。之前在学离散数学的时候，接触过这两种算法，有过一些大致的了解和观点。</p>
+<h2 id="题目-克隆图"><a href="#题目-克隆图" class="headerlink" title="题目  克隆图"></a>题目  克隆图</h2><p>给你无向 <strong><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%BF%9E%E9%80%9A%E5%9B%BE/6460995?fr=aladdin">连通</a></strong> 图中一个节点的引用，请你返回该图的 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%B7%B1%E6%8B%B7%E8%B4%9D/22785317?fr=aladdin"><strong>深拷贝</strong></a>（克隆）。</p>
+<p>图中的每个节点都包含它的值 <code>val</code>（<code>int</code>） 和其邻居的列表（<code>list[Node]</code>）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Node &#123;</span><br><span class="line">public:</span><br><span class="line">    int val;</span><br><span class="line">    List&lt;Node&gt; neighbors;</span><br><span class="line">    </span><br><span class="line">    Node() &#123;</span><br><span class="line">        val &#x3D; 0;</span><br><span class="line">        neighbors &#x3D; vector&lt;Node*&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Node(int _val) &#123;</span><br><span class="line">        val &#x3D; _val;</span><br><span class="line">        neighbors &#x3D; vector&lt;Node*&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    Node(int _val, vector&lt;Node*&gt; _neighbors) &#123;</span><br><span class="line">        val &#x3D; _val;</span><br><span class="line">        neighbors &#x3D; _neighbors;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试用例格式：</strong></p>
+<p>简单起见，每个节点的值都和它的索引相同。例如，第一个节点值为 1（val = 1），第二个节点值为 2（val = 2），以此类推。该图在测试用例中使用邻接列表表示。</p>
+<p>__邻接列表__是用于表示有限图的无序列表的集合。每个列表都描述了图中节点的邻居集。</p>
+<p>给定节点将始终是图中的第一个节点（值为 1）。你必须将 <strong>给定节点的拷贝</strong> 作为对克隆图的引用返回。</p>
+<h2 id="DFS算法"><a href="#DFS算法" class="headerlink" title="DFS算法"></a>DFS算法</h2><p>当访问一个结点v的时候，因为已经到了这个结点处，所以要把它标记位访问过的，且对它所有未标记的接领结点递归调用DFS.</p>
+<p>一般风格的代码模板：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void Graph::dfs(Vertex v)</span><br><span class="line">&#123;</span><br><span class="line">    v.visited &#x3D; true;</span><br><span class="line">    for each Vertex w adjacent to v</span><br><span class="line">        if(!w.visited)</span><br><span class="line">            dfs(w);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这个题目中，使用一个哈希表，记录已经访问和克隆的结点。哈希表中key是原始结点，value是克隆节点。</p>
+<p>从给定节点开始遍历图。如果某个节点已经被访问过，则返回其克隆图中的对应节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Solution</span><br><span class="line">&#123;</span><br><span class="line">public：</span><br><span class="line">    unordered_map&lt;Node*,Node*&gt; visited;</span><br><span class="line">    Node* dfsclone(Node* node)</span><br><span class="line">    &#123;</span><br><span class="line">        if(node &#x3D;&#x3D; NULL) return node;</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F;已被访问过，则返回node在hash表中对应的克隆结点</span><br><span class="line">        if(visited.find(node) !&#x3D; visited.end())</span><br><span class="line">        &#123;</span><br><span class="line">            return visited[node];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        Node* cloneNode &#x3D; new Node(node-&gt;val);</span><br><span class="line">        visited[node] &#x3D; cloneNode;</span><br><span class="line">        </span><br><span class="line">        for(auto&amp; neighbor: node-&gt;neighbors)</span><br><span class="line">        &#123;</span><br><span class="line">            cloneNode-&gt;neighbors.push_back(dfsclone(neighbor));</span><br><span class="line">        &#125;</span><br><span class="line">        return cloneNode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="BFS算法"><a href="#BFS算法" class="headerlink" title="BFS算法"></a>BFS算法</h2><p>当访问一个结点v的时候，因为已经到了这个结点处，所以要把它标记位访问过的.</p>
+<p>我们用一个先进先出的队列来管理已访问的结点，从队列中pop出一个已经标记访问过的结点，就检测它所有接领结点，若有接领结点没有访问过，则将其推入队列中。程序起始在队列中推入源节点，标记访问，再弹出，推入所有未访问的接领结点。</p>
+<p>一般代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">void Graph::bfs(Vertex v)</span><br><span class="line">&#123;</span><br><span class="line">    v.visited &#x3D; true;</span><br><span class="line">    queue Q;</span><br><span class="line">    Q.push(v);</span><br><span class="line">    </span><br><span class="line">    while(!Q.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        auto n &#x3D; Q.front();</span><br><span class="line">        Q.pop();</span><br><span class="line">        </span><br><span class="line">        for each Vertex w adjacent to v</span><br><span class="line">        &#123;</span><br><span class="line">            if(!w.visited)</span><br><span class="line">            &#123;</span><br><span class="line">                w.visited &#x3D; true;</span><br><span class="line">                Q.push(w);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用一个哈希表 visited 存储所有已被访问和克隆的节点。哈希表中的 key 是原始图中的节点，value 是克隆图中的对应节点。</p>
+<p>每次从队列首部取出一个节点，遍历该节点的所有邻接点。如果某个邻接点已被访问，则该邻接点一定在 visited 中，那么从 visited 获得该邻接点，否则创建一个新的节点存储在 visited 中，并将邻接点添加到队列。将克隆的邻接点添加到克隆图对应节点的邻接表中。重复上述操作直到队列为空，则整个图遍历结束。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Solution</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    Node* bfsclone(Node* node)</span><br><span class="line">    &#123;</span><br><span class="line">        if(node &#x3D;&#x3D; NULL) return;</span><br><span class="line">        unordered_map&lt;Node*,Node*&gt; visit;</span><br><span class="line">        queue&lt;Node*&gt; q;</span><br><span class="line">        Node* cloneNode &#x3D; new Node(node-&gt;val);</span><br><span class="line">        q.push(node);</span><br><span class="line">        visit[node] &#x3D; cloneNode;</span><br><span class="line">        </span><br><span class="line">        while(!q.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            auto node &#x3D; q.front();</span><br><span class="line">            q.pop();</span><br><span class="line">            for(auto&amp; neigbor:node-&gt;neighbors)</span><br><span class="line">            &#123;</span><br><span class="line">                if(visit.find(neighbor) !&#x3D; visit.end())</span><br><span class="line">                &#123;</span><br><span class="line">                    visit[neighbor] &#x3D; new Node(neigbor-&gt;val);</span><br><span class="line">                    q.push(neighor);</span><br><span class="line">                &#125;</span><br><span class="line">                node-&gt;neighbors.push_back(visit[neigbor]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return clondeNode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>以上关于题目的解析与代码，模仿自<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/clone-graph/solution/ke-long-tu-by-leetcode-solution/">力扣官方题解</a></strong> </p>
+<p><strong>关于DFS与BFS算法还有许多东西要学习，本篇Blog待续….</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -702,7 +794,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -711,6 +803,10 @@
           
         <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
