@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"liuxiaozhu99.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="动态规划（Dynamic Programming）​    与分治方法相似，都是通过组合子问题的解来求解原问题。应用于子问题重叠的情况，即不同的子问题具有公共的子问题（子问题的求解是递归进行的，将其划分为更小的子问题）。动态规划算法对每个子子问题只求解一次，将其解保存在一共表格里，从而无需每次求解一个子子问题时都重新计算，避免了这种不必要的计算工作。 ​    求解过程时多阶段决策过程，每一步处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态规划">
+<meta property="og:url" content="http://liuxiaozhu99.github.io/2020/09/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.html">
+<meta property="og:site_name" content="Liu小猪の日常逼逼赖赖">
+<meta property="og:description" content="动态规划（Dynamic Programming）​    与分治方法相似，都是通过组合子问题的解来求解原问题。应用于子问题重叠的情况，即不同的子问题具有公共的子问题（子问题的求解是递归进行的，将其划分为更小的子问题）。动态规划算法对每个子子问题只求解一次，将其解保存在一共表格里，从而无需每次求解一个子子问题时都重新计算，避免了这种不必要的计算工作。 ​    求解过程时多阶段决策过程，每一步处理">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-04T08:22:05.000Z">
+<meta property="article:modified_time" content="2020-09-04T10:07:05.150Z">
+<meta property="article:author" content="巴啦啦小猪猪">
+<meta property="article:tag" content="数据结构与算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://liuxiaozhu99.github.io/2020/09/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>动态规划 | Liu小猪の日常逼逼赖赖</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Liu小猪の日常逼逼赖赖</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">9</span></a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaozhu99.github.io/2020/09/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pig_avatar.jpg">
+      <meta itemprop="name" content="巴啦啦小猪猪">
+      <meta itemprop="description" content="有没有你还是那个我，有没有你还一样地过">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liu小猪の日常逼逼赖赖">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态规划
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 16:22:05 / 修改时间：18:07:05" itemprop="dateCreated datePublished" datetime="2020-09-04T16:22:05+08:00">2020-09-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="动态规划（Dynamic-Programming）"><a href="#动态规划（Dynamic-Programming）" class="headerlink" title="动态规划（Dynamic Programming）"></a>动态规划（Dynamic Programming）</h2><p>​    与分治方法相似，都是通过组合子问题的解来求解原问题。应用于子问题重叠的情况，即不同的子问题具有公共的子问题（子问题的求解是递归进行的，将其划分为更小的子问题）。动态规划算法对每个子子问题只求解一次，将其解保存在一共表格里，从而无需每次求解一个子子问题时都重新计算，避免了这种不必要的计算工作。</p>
+<p>​    求解过程时多阶段决策过程，每一步处理一个子问题，可用于求解组合优化问题。</p>
+<p>​    适用条件：问题要满足优化原则或最优子结构性质，即：<strong>一个最优决策序列的任何子序列本身一定是相对于子序列的初始和结束状态的最优决策序列</strong></p>
+<h3 id="设计要素"><a href="#设计要素" class="headerlink" title="设计要素"></a>设计要素</h3><p>1.问题建模，优化的目标函数是什么？（对解）约束条件是什么？</p>
+<p>2.思考子问题的依赖关系，子问题如何划分（边界）</p>
+<p>3.问题的优化函数值与子问题的优化函数值存在什么依赖关系？（递推方程）—-递归地定义最优解的值。</p>
+<p>4.是否满足优化原则？</p>
+<p>5.最小子问题如何界定？最小子问题的优化函数值，即初值是什么？</p>
+<p><strong>以下来自leetcode题解 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-palindromic-substring/solution/zhong-xin-kuo-san-dong-tai-gui-hua-by-liweiwei1419/">leetcode</a></strong></p>
+<p>1、思考状态（重点）</p>
+<p>状态的定义，先尝试「题目问什么，就把什么设置为状态」；<br>然后思考「状态如何转移」，如果「状态转移方程」不容易得到，尝试修改定义，目的依然是为了方便得到「状态转移方程」。<br>「状态转移方程」是原始问题的不同规模的子问题的联系。即大问题的最优解如何由小问题的最优解得到。</p>
+<p>2、思考状态转移方程（核心、难点）</p>
+<p>状态转移方程是非常重要的，是动态规划的核心，也是难点；</p>
+<p>常见的推导技巧是：分类讨论。即：对状态空间进行分类；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">归纳「状态转移方程」是一个很灵活的事情，通常是具体问题具体分析；</span><br></pre></td></tr></table></figure>
+
+<p>除了掌握经典的动态规划问题以外，还需要多做题；</p>
+<p>如果是针对面试，请自行把握难度。掌握常见问题的动态规划解法，理解动态规划解决问题，是从一个小规模问题出发，逐步得到大问题的解，并记录中间过程；</p>
+<p>「动态规划」方法依然是「空间换时间」思想的体现，常见的解决问题的过程很像在「填表」。</p>
+<p>3、思考初始化</p>
+<p>初始化是非常重要的，一步错，步步错。初始化状态一定要设置对，才可能得到正确的结果。</p>
+<p>角度 1：直接从状态的语义出发；</p>
+<p>角度 2：如果状态的语义不好思考，就考虑「状态转移方程」的边界需要什么样初始化的条件；</p>
+<p>角度 3：从「状态转移方程」方程的下标看是否需要多设置一行、一列表示「哨兵」（sentinel），这样可以避免一些特殊情况的讨论。</p>
+<p>4、思考输出</p>
+<p>有些时候是最后一个状态，有些时候可能会综合之前所有计算过的状态。</p>
+<p>5、思考优化空间（也可以叫做表格复用）</p>
+<p>「优化空间」会使得代码难于理解，且是的「状态」丢失原来的语义，初学的时候可以不一步到位。先把代码写正确是更重要；<br>「优化空间」在有一种情况下是很有必要的，那就是状态空间非常庞大的时候（处理海量数据），此时空间不够用，就必须「优化空间」；<br>非常经典的「优化空间」的典型问题是「0-1 背包」问题和「完全背包」问题。</p>
+<h2 id="题目：最长回文子串"><a href="#题目：最长回文子串" class="headerlink" title="题目：最长回文子串"></a>题目：最长回文子串</h2><p>给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
+<p><strong>示例1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;babad&quot;</span><br><span class="line">输出: &quot;bab&quot;</span><br><span class="line">注意: &quot;aba&quot; 也是一个有效答案。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;cbbd&quot;</span><br><span class="line">输出: &quot;bb&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>dp[i][j]</code> 表示子串 <code>s[i..j]</code> 是否为回文子串，这里子串 <code>s[i..j]</code> 定义为左闭右闭区间，可以取到 <code>s[i]</code> 和 <code>s[j]</code>。    隐含的，i&lt;=j.</p>
+<p><strong>递推表示</strong>     </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] &#x3D; (s[i] &#x3D;&#x3D; s[j]) and dp[i + 1][j - 1]</span><br></pre></td></tr></table></figure>
+
+<p>而这个表达式，是建立在子串长度大于 2 的前提之上的，我们还需要考虑动态规划中的__边界条件__，即子串的长度为1或2。</p>
+<p>长度为1，显然是个回文串，即dp[i] [i]  = 1.        长度为2，也就S[i] [i+1],则需要满足这俩字符相等才为回文子串，即dp[i] [i+1] = (s[i] == s[i+1])</p>
+<p>由此，子串长度由长到短进行（状态）转移，逐个位置取这么长的子串进行判断。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">string longestPalindrome(string s) </span><br><span class="line">&#123;</span><br><span class="line">    int n &#x3D; s.size();</span><br><span class="line">    vector&lt;vector&lt;bool&gt;&gt; dp(n,vector&lt;bool&gt;(n));</span><br><span class="line">    string ans &#x3D; &quot;&quot;;</span><br><span class="line">    for(int k &#x3D;0;k&lt;n;k++)</span><br><span class="line">    &#123;</span><br><span class="line">        for(int i &#x3D; 0;i+k&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            int j &#x3D; i+k;</span><br><span class="line">            if(k &#x3D;&#x3D; 0) dp[i][j] &#x3D; 1;    &#x2F;&#x2F;子串长为1，dp[i][j] &#x3D; 1</span><br><span class="line">            else if(k &#x3D;&#x3D; 1) dp[i][j] &#x3D; (s[i] &#x3D;&#x3D; s[j]);        </span><br><span class="line">            &#x2F;&#x2F;子串长为2时，判断俩字符是否相同。</span><br><span class="line">            else        &#x2F;&#x2F;子串长大于2.</span><br><span class="line">            &#123;</span><br><span class="line">                dp[i][j] &#x3D; (dp[i+1][j-1] &amp;&amp; s[i]&#x3D;&#x3D;s[j]);</span><br><span class="line">            &#125;</span><br><span class="line">            if(dp[i][j] &#x3D;&#x3D; 1 &amp;&amp; k+1&gt;ans.size())</span><br><span class="line">            &#123;</span><br><span class="line">                ans &#x3D; s.substr(i,k+1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="巴啦啦小猪猪 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="巴啦啦小猪猪 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>巴啦啦小猪猪
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://liuxiaozhu99.github.io/2020/09/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="动态规划">http://liuxiaozhu99.github.io/2020/09/04/动态规划/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag"># 数据结构与算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/19/%E5%85%A8%E6%8E%92%E5%88%97/" rel="prev" title="全排列">
+      <i class="fa fa-chevron-left"></i> 全排列
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/10/%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" rel="next" title="组合总和">
+      组合总和 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%EF%BC%88Dynamic-Programming%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">动态规划（Dynamic Programming）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E8%A6%81%E7%B4%A0"><span class="nav-number">1.1.</span> <span class="nav-text">设计要素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%EF%BC%9A%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2"><span class="nav-number">2.</span> <span class="nav-text">题目：最长回文子串</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="巴啦啦小猪猪"
+      src="/images/pig_avatar.jpg">
+  <p class="site-author-name" itemprop="name">巴啦啦小猪猪</p>
+  <div class="site-description" itemprop="description">有没有你还是那个我，有没有你还一样地过</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liuxiaozhu99" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;liuxiaozhu99" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">巴啦啦小猪猪</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+  
+  <script type="text/javascript"
+  color="0,0,255" opacity='0.7' count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+
+</body>
+</html>

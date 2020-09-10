@@ -127,7 +127,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">7</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">9</span></a>
 
   </li>
   </ul>
@@ -153,6 +153,188 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaozhu99.github.io/2020/09/10/%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pig_avatar.jpg">
+      <meta itemprop="name" content="巴啦啦小猪猪">
+      <meta itemprop="description" content="有没有你还是那个我，有没有你还一样地过">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liu小猪の日常逼逼赖赖">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/10/%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" class="post-title-link" itemprop="url">组合总和</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-10 20:28:54 / 修改时间：20:49:32" itemprop="dateCreated datePublished" datetime="2020-09-10T20:28:54+08:00">2020-09-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="组合总和"><a href="#组合总和" class="headerlink" title="组合总和"></a>组合总和</h2><p>这道来自力扣的题有两个，分Ⅰ和Ⅱ，用到了回溯+剪枝的方法。</p>
+<p>主要区别是： </p>
+<p>Ⅰ    给定一个__无重复元素__的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的数字可以__无限制重复被选取__。</p>
+<p>Ⅱ    给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。</p>
+<p>candidates 中的__每个数字在每个组合中只能使用一次__。                    ——这里candidates数组里就可以有重复元素了</p>
+<p>把这两道题摘录下来的原因是，<strong>在Ⅱ中有一个去重的判断没有想到，觉得很有意思，就记录下来了</strong></p>
+<hr>
+<p>先把代码贴上，着重标记那个剪枝判断吧。</p>
+<h4 id="组合总和Ⅰ-这个没啥好说的。。"><a href="#组合总和Ⅰ-这个没啥好说的。。" class="headerlink" title="组合总和Ⅰ 这个没啥好说的。。"></a>组合总和Ⅰ 这个没啥好说的。。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;int&gt; nums;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combinationSum(vector&lt;int&gt;&amp; candidates, int target) &#123;</span><br><span class="line">        nums &#x3D; candidates;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt; ans;</span><br><span class="line">        vector&lt;int&gt; e;</span><br><span class="line">        backtrack(0, target, e, ans,0);</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">    void backtrack(int count,int target, vector&lt;int&gt;&amp; e,vector&lt;vector&lt;int&gt;&gt;&amp; ans,int startIndex)</span><br><span class="line">    &#123;</span><br><span class="line">        if(count &#x3D;&#x3D; target)</span><br><span class="line">        &#123;</span><br><span class="line">            ans.push_back(e);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i &#x3D; startIndex;i&lt;nums.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(count + nums[i] &lt;&#x3D; target)</span><br><span class="line">            &#123;</span><br><span class="line">                count+&#x3D;nums[i];</span><br><span class="line">                e.push_back(nums[i]);</span><br><span class="line">                backtrack(count,target,e,ans,i);</span><br><span class="line">                e.pop_back();</span><br><span class="line">                count-&#x3D;nums[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="组合总数Ⅱ"><a href="#组合总数Ⅱ" class="headerlink" title="组合总数Ⅱ"></a>组合总数Ⅱ</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; ans;</span><br><span class="line">    vector&lt;int&gt; n;</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combinationSum2(vector&lt;int&gt;&amp; candidates, int target) &#123;</span><br><span class="line">        sort(candidates.begin(),candidates.end());</span><br><span class="line">        dfs(0,target,candidates,0);</span><br><span class="line">        return ans;</span><br><span class="line">    &#125;</span><br><span class="line">    void dfs(int count, int target, vector&lt;int&gt;&amp; candidates,int index)</span><br><span class="line">    &#123;</span><br><span class="line">        if(count &#x3D;&#x3D; target)</span><br><span class="line">        &#123;</span><br><span class="line">            ans.push_back(n);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D; index;i&lt;candidates.size();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(i&gt;index&amp;&amp;candidates[i] &#x3D;&#x3D; candidates[i-1]) continue;            &#x2F;&#x2F;是他就是它！！！！！</span><br><span class="line">            if(count + candidates[i]&lt;&#x3D;target)</span><br><span class="line">            &#123;</span><br><span class="line">                count+&#x3D;candidates[i];</span><br><span class="line">                n.push_back(candidates[i]);</span><br><span class="line">                dfs(count,target,candidates,i+1);</span><br><span class="line">                count-&#x3D;candidates[i];</span><br><span class="line">                n.pop_back();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这道题中答案的每个元素似乎有个什么顺序，应该是从小到大的，所以在调用dfs前，先对candidates数组进行排序。</p>
+<p>举一个栗子：</p>
+<p>candidates = {10,1,2,7,6,1,5}    –sort–&gt;    candidates = {1,1,2,5,6,7,10}</p>
+<p>排序完了之后，数组里那些重复的元素不就放在一起了嘛，然后__在本层函数调用的时候，选过了一个数字(例子中是 1 )那个for循环（本层函数）就不能再把1给push_back进去了吧。但是在递归调用的下一层，这个第二个 1 可能还是会用到的,__ <strong>所以我们就不能鲁莽的直接判断candidates[i] == candidates[i-1]就continue.</strong> <strong>于是我们在这里家里一个条件    i&gt;index     这样我们就指明了，是在某一层（同一层）调用的时候，跳过重复元素，而不会在下一层调用的时候跳过</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaozhu99.github.io/2020/09/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pig_avatar.jpg">
+      <meta itemprop="name" content="巴啦啦小猪猪">
+      <meta itemprop="description" content="有没有你还是那个我，有没有你还一样地过">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liu小猪の日常逼逼赖赖">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">动态规划</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 16:22:05 / 修改时间：18:07:05" itemprop="dateCreated datePublished" datetime="2020-09-04T16:22:05+08:00">2020-09-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="动态规划（Dynamic-Programming）"><a href="#动态规划（Dynamic-Programming）" class="headerlink" title="动态规划（Dynamic Programming）"></a>动态规划（Dynamic Programming）</h2><p>​    与分治方法相似，都是通过组合子问题的解来求解原问题。应用于子问题重叠的情况，即不同的子问题具有公共的子问题（子问题的求解是递归进行的，将其划分为更小的子问题）。动态规划算法对每个子子问题只求解一次，将其解保存在一共表格里，从而无需每次求解一个子子问题时都重新计算，避免了这种不必要的计算工作。</p>
+<p>​    求解过程时多阶段决策过程，每一步处理一个子问题，可用于求解组合优化问题。</p>
+<p>​    适用条件：问题要满足优化原则或最优子结构性质，即：<strong>一个最优决策序列的任何子序列本身一定是相对于子序列的初始和结束状态的最优决策序列</strong></p>
+<h3 id="设计要素"><a href="#设计要素" class="headerlink" title="设计要素"></a>设计要素</h3><p>1.问题建模，优化的目标函数是什么？（对解）约束条件是什么？</p>
+<p>2.思考子问题的依赖关系，子问题如何划分（边界）</p>
+<p>3.问题的优化函数值与子问题的优化函数值存在什么依赖关系？（递推方程）—-递归地定义最优解的值。</p>
+<p>4.是否满足优化原则？</p>
+<p>5.最小子问题如何界定？最小子问题的优化函数值，即初值是什么？</p>
+<p><strong>以下来自leetcode题解 <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/longest-palindromic-substring/solution/zhong-xin-kuo-san-dong-tai-gui-hua-by-liweiwei1419/">leetcode</a></strong></p>
+<p>1、思考状态（重点）</p>
+<p>状态的定义，先尝试「题目问什么，就把什么设置为状态」；<br>然后思考「状态如何转移」，如果「状态转移方程」不容易得到，尝试修改定义，目的依然是为了方便得到「状态转移方程」。<br>「状态转移方程」是原始问题的不同规模的子问题的联系。即大问题的最优解如何由小问题的最优解得到。</p>
+<p>2、思考状态转移方程（核心、难点）</p>
+<p>状态转移方程是非常重要的，是动态规划的核心，也是难点；</p>
+<p>常见的推导技巧是：分类讨论。即：对状态空间进行分类；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">归纳「状态转移方程」是一个很灵活的事情，通常是具体问题具体分析；</span><br></pre></td></tr></table></figure>
+
+<p>除了掌握经典的动态规划问题以外，还需要多做题；</p>
+<p>如果是针对面试，请自行把握难度。掌握常见问题的动态规划解法，理解动态规划解决问题，是从一个小规模问题出发，逐步得到大问题的解，并记录中间过程；</p>
+<p>「动态规划」方法依然是「空间换时间」思想的体现，常见的解决问题的过程很像在「填表」。</p>
+<p>3、思考初始化</p>
+<p>初始化是非常重要的，一步错，步步错。初始化状态一定要设置对，才可能得到正确的结果。</p>
+<p>角度 1：直接从状态的语义出发；</p>
+<p>角度 2：如果状态的语义不好思考，就考虑「状态转移方程」的边界需要什么样初始化的条件；</p>
+<p>角度 3：从「状态转移方程」方程的下标看是否需要多设置一行、一列表示「哨兵」（sentinel），这样可以避免一些特殊情况的讨论。</p>
+<p>4、思考输出</p>
+<p>有些时候是最后一个状态，有些时候可能会综合之前所有计算过的状态。</p>
+<p>5、思考优化空间（也可以叫做表格复用）</p>
+<p>「优化空间」会使得代码难于理解，且是的「状态」丢失原来的语义，初学的时候可以不一步到位。先把代码写正确是更重要；<br>「优化空间」在有一种情况下是很有必要的，那就是状态空间非常庞大的时候（处理海量数据），此时空间不够用，就必须「优化空间」；<br>非常经典的「优化空间」的典型问题是「0-1 背包」问题和「完全背包」问题。</p>
+<h2 id="题目：最长回文子串"><a href="#题目：最长回文子串" class="headerlink" title="题目：最长回文子串"></a>题目：最长回文子串</h2><p>给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
+<p><strong>示例1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;babad&quot;</span><br><span class="line">输出: &quot;bab&quot;</span><br><span class="line">注意: &quot;aba&quot; 也是一个有效答案。</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例2：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;cbbd&quot;</span><br><span class="line">输出: &quot;bb&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>dp[i][j]</code> 表示子串 <code>s[i..j]</code> 是否为回文子串，这里子串 <code>s[i..j]</code> 定义为左闭右闭区间，可以取到 <code>s[i]</code> 和 <code>s[j]</code>。    隐含的，i&lt;=j.</p>
+<p><strong>递推表示</strong>     </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] &#x3D; (s[i] &#x3D;&#x3D; s[j]) and dp[i + 1][j - 1]</span><br></pre></td></tr></table></figure>
+
+<p>而这个表达式，是建立在子串长度大于 2 的前提之上的，我们还需要考虑动态规划中的__边界条件__，即子串的长度为1或2。</p>
+<p>长度为1，显然是个回文串，即dp[i] [i]  = 1.        长度为2，也就S[i] [i+1],则需要满足这俩字符相等才为回文子串，即dp[i] [i+1] = (s[i] == s[i+1])</p>
+<p>由此，子串长度由长到短进行（状态）转移，逐个位置取这么长的子串进行判断。</p>
+<p><strong>代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">string longestPalindrome(string s) </span><br><span class="line">&#123;</span><br><span class="line">    int n &#x3D; s.size();</span><br><span class="line">    vector&lt;vector&lt;bool&gt;&gt; dp(n,vector&lt;bool&gt;(n));</span><br><span class="line">    string ans &#x3D; &quot;&quot;;</span><br><span class="line">    for(int k &#x3D;0;k&lt;n;k++)</span><br><span class="line">    &#123;</span><br><span class="line">        for(int i &#x3D; 0;i+k&lt;n;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            int j &#x3D; i+k;</span><br><span class="line">            if(k &#x3D;&#x3D; 0) dp[i][j] &#x3D; 1;    &#x2F;&#x2F;子串长为1，dp[i][j] &#x3D; 1</span><br><span class="line">            else if(k &#x3D;&#x3D; 1) dp[i][j] &#x3D; (s[i] &#x3D;&#x3D; s[j]);        </span><br><span class="line">            &#x2F;&#x2F;子串长为2时，判断俩字符是否相同。</span><br><span class="line">            else        &#x2F;&#x2F;子串长大于2.</span><br><span class="line">            &#123;</span><br><span class="line">                dp[i][j] &#x3D; (dp[i+1][j-1] &amp;&amp; s[i]&#x3D;&#x3D;s[j]);</span><br><span class="line">            &#125;</span><br><span class="line">            if(dp[i][j] &#x3D;&#x3D; 1 &amp;&amp; k+1&gt;ans.size())</span><br><span class="line">            &#123;</span><br><span class="line">                ans &#x3D; s.substr(i,k+1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -909,7 +1091,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -918,6 +1100,10 @@
           
         <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
