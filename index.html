@@ -122,12 +122,12 @@
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">9</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a>
 
   </li>
   </ul>
@@ -153,6 +153,110 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liuxiaozhu99.github.io/2020/10/03/%E5%85%B3%E4%BA%8E%E8%B4%A8%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pig_avatar.jpg">
+      <meta itemprop="name" content="巴啦啦小猪猪">
+      <meta itemprop="description" content="有没有你还是那个我，有没有你还一样地过">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liu小猪の日常逼逼赖赖">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/03/%E5%85%B3%E4%BA%8E%E8%B4%A8%E6%95%B0/" class="post-title-link" itemprop="url">关于质数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-03 20:51:41 / 修改时间：21:50:04" itemprop="dateCreated datePublished" datetime="2020-10-03T20:51:41+08:00">2020-10-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OJ/" itemprop="url" rel="index"><span itemprop="name">OJ</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="怎么判断一个数是不是质数呢？？？"><a href="#怎么判断一个数是不是质数呢？？？" class="headerlink" title="怎么判断一个数是不是质数呢？？？"></a>怎么判断一个数是不是质数呢？？？</h2><h3 id="方法1-直接暴力"><a href="#方法1-直接暴力" class="headerlink" title="方法1 直接暴力"></a>方法1 直接暴力</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bool isPrime(int n)&#123;</span><br><span class="line">    if (n &lt;&#x3D; 3) &#123;</span><br><span class="line">        return n &gt; 1;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i &#x3D; 2; i &lt; n; i++)&#123;</span><br><span class="line">        if (n % i &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法无fuck说….</p>
+<h4 id="方法2-初步优化"><a href="#方法2-初步优化" class="headerlink" title="方法2 初步优化"></a>方法2 初步优化</h4><p> 假如n是合数，必然存在非1的两个约数p1和p2，其中p1&lt;=sqrt(n)，p2&gt;=sqrt(n)。由此我们可以改进上述方法优化循环次数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;cmath&gt;            &#x2F;&#x2F;需要用到sqrt()函数</span><br><span class="line">bool isPrime(int n)</span><br><span class="line">&#123;</span><br><span class="line">    if (n &lt;&#x3D; 3) &#123;</span><br><span class="line">        return n &gt; 1;</span><br><span class="line">    &#125;</span><br><span class="line">    int s &#x3D; sqrt(n);</span><br><span class="line">    for (int i &#x3D; 2; i &lt;&#x3D; s; i++) &#123;</span><br><span class="line">        if(n % i &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个比暴力全部搜一遍快多了，时间复杂度是<strong>O(√n)</strong></p>
+<h4 id="方法3-再优化"><a href="#方法3-再优化" class="headerlink" title="方法3 再优化"></a>方法3 再优化</h4><p>质数还有一个特点，就是它总是等于 6x-1 或者 6x+1，其中 x 是大于等于1的自然数。</p>
+<p>怎么证明呢？</p>
+<p>首先 6x 肯定不是质数，因为它能被 6 整除；其次 6x+2 肯定也不是质数，因为它还能被2整除；依次类推，6x+3 肯定能被 3 整除；6x+4 肯定能被 2 整除。那么，就只有 6x+1 和 6x+5 (即等同于6x-1) 可能是质数了。</p>
+<p>所以上来先判断，是不是在__6k___左右两边，如果不是，那它肯定不是质数，应该是一个合数。</p>
+<p>如果在__6k__左右两边呢？那就再用方法2的开跟号算咯。不过不用再像之前一样一个个算了，直接看那些在__6k__两边的数就好啦，它们是可疑的，可能是质数，也可能是合数。其他的数肯定是合数，就不必要再去检验是否为__n__的因子了（所有合数至少有一个质因子，那我直接对__n__验那个质因子不完事了）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;cmath&gt;</span><br><span class="line">bool isPrime(int num) &#123;</span><br><span class="line">    if (num &lt;&#x3D; 3) &#123;</span><br><span class="line">        return num &gt; 1;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 不在6的倍数两侧的一定不是质数</span><br><span class="line">    if (num % 6 !&#x3D; 1 &amp;&amp; num % 6 !&#x3D; 5) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    int sqrt &#x3D; sqrt(num);</span><br><span class="line">    for (int i &#x3D; 5; i &lt;&#x3D; sqrt; i +&#x3D; 6) &#123;</span><br><span class="line">        if (num % i &#x3D;&#x3D; 0 || num % (i + 2) &#x3D;&#x3D; 0) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="埃氏筛法"><a href="#埃氏筛法" class="headerlink" title="埃氏筛法"></a>埃氏筛法</h3><p>埃氏筛法(素数筛)<br>埃式筛法：给定一个正整数n(n&lt;=10^6)，问n以内有多少个素数？</p>
+<p><strong>ANS</strong></p>
+<p>首先将2到n范围内的整数写下来，其中2是最小的素数。将表中所有的2的倍数划去，表中剩下的最小的数字就是3，他不能被更小的数整除，所以3是素数。再将表中所有的3的倍数划去……以此类推，如果表中剩余的最小的数是m，那么m就是素数。然后将表中所有m的倍数划去，像这样反复操作，就能依次枚举n以内的素数，这样的时间复杂度是O(nloglogn)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">int prime[MAXN];        &#x2F;&#x2F;记录素数</span><br><span class="line">bool is_pri[MAXN+10];        &#x2F;&#x2F;is_pri[i]表示i是素数</span><br><span class="line">&#x2F;&#x2F;返回n以内素数的个数</span><br><span class="line">int sieve(int n)</span><br><span class="line">&#123;</span><br><span class="line">    int p&#x3D;0;</span><br><span class="line">    for(int i&#x3D;0;i&lt;&#x3D;n;i++)is_pri[i]&#x3D;true;</span><br><span class="line">    is_pri[0]&#x3D;is_pri[1]&#x3D;false;        &#x2F;&#x2F;0 1不是素数</span><br><span class="line">    for(int i&#x3D;2;i&lt;&#x3D;n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if(is_pri[i])</span><br><span class="line">        &#123;</span><br><span class="line">            prime[++p]&#x3D;i;</span><br><span class="line">            for(int j&#x3D;2*i;j&lt;&#x3D;n;j+&#x3D;i)is_pri[j]&#x3D;false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="一道题：质数口袋"><a href="#一道题：质数口袋" class="headerlink" title="一道题：质数口袋"></a>一道题：质数口袋</h3><p>小A 有一个质数口袋，里面可以装各个质数。他从 2 开始，依次判断各个自然数是不是质数，如果是质数就会把这个数字装入口袋。口袋的负载量就是口袋里的所有数字之和。但是口袋的承重量有限，不能装得下总和超过__L(1≤L≤100000) __的质数。给出 __L__，请问口袋里能装下几个质数？将这些质数从小往大输出，然后输出最多能装下的质数个数，所有数字之间有一空行。</p>
+<h4 id="Liuxiaozhu的垃圾AC代码"><a href="#Liuxiaozhu的垃圾AC代码" class="headerlink" title="Liuxiaozhu的垃圾AC代码"></a>Liuxiaozhu的垃圾AC代码</h4><p>你看看这，又臭又长…. </p>
+<p>写了个函数，判断5以后的数是否为质数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;cmath&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">bool judge(int a)</span><br><span class="line">&#123;</span><br><span class="line">    int k &#x3D; sqrt(a);</span><br><span class="line">    for (int i &#x3D; 5; i &lt;&#x3D; k; i +&#x3D; 6)</span><br><span class="line">    &#123;</span><br><span class="line">        if ((a % i &#x3D;&#x3D; 0) || (a % (i + 2) &#x3D;&#x3D; 0))</span><br><span class="line">            return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int sum &#x3D; 0;</span><br><span class="line">    int L;</span><br><span class="line">    int cnt &#x3D; 0;</span><br><span class="line">    cin &gt;&gt; L;</span><br><span class="line">    if (sum + 2 &gt; L)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; cnt &lt;&lt; endl;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        sum +&#x3D; 2;</span><br><span class="line">        cnt++;</span><br><span class="line">        cout &lt;&lt; 2 &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    if (sum + 3 &gt; L)</span><br><span class="line">    &#123;</span><br><span class="line">        cout &lt;&lt; cnt &lt;&lt; endl;</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        sum +&#x3D; 3;</span><br><span class="line">        cnt++;</span><br><span class="line">        cout &lt;&lt; 3 &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    int num &#x3D; 5;</span><br><span class="line">    while (1)</span><br><span class="line">    &#123;</span><br><span class="line">        if (judge(num))</span><br><span class="line">        &#123;</span><br><span class="line">            if (sum + num &gt; L)</span><br><span class="line">            &#123;</span><br><span class="line">                cout &lt;&lt; cnt &lt;&lt; endl;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                sum +&#x3D; num;</span><br><span class="line">                cnt++;</span><br><span class="line">                cout &lt;&lt; num &lt;&lt; endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (judge(num + 2))</span><br><span class="line">        &#123;</span><br><span class="line">            if (sum + num + 2 &gt; L)</span><br><span class="line">            &#123;</span><br><span class="line">                cout &lt;&lt; cnt &lt;&lt; endl;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                sum &#x3D; sum + num + 2;</span><br><span class="line">                cnt++;</span><br><span class="line">                cout &lt;&lt; num + 2 &lt;&lt; endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        num +&#x3D; 6;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="用埃氏筛"><a href="#用埃氏筛" class="headerlink" title="用埃氏筛"></a>用埃氏筛</h4><p>先用埃筛筛出100000100000以内的质数，然后循环：如果L<em>L</em>能够就把L<em>L</em>减去这个质数，输出这个质数，然后cnt++;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;cstring&gt;</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int L;</span><br><span class="line">    bool prime[100000];</span><br><span class="line">    int cnt&#x3D;0;</span><br><span class="line">    cin &gt;&gt; L;</span><br><span class="line">    memset(prime, 1, sizeof(prime));</span><br><span class="line">    prime[0] &#x3D; 0;</span><br><span class="line">    prime[1] &#x3D; 0;</span><br><span class="line">    for (int i &#x3D; 2; i &lt; 100000; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (prime[i])</span><br><span class="line">        &#123;</span><br><span class="line">            for (int j &#x3D; i * 2; j &lt; 100000; j +&#x3D; i)</span><br><span class="line">            &#123;</span><br><span class="line">                prime[j] &#x3D; 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int i &#x3D; 2; i &lt; 100000; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        if (prime[i])</span><br><span class="line">        &#123;</span><br><span class="line">            if (L &gt;&#x3D; i) </span><br><span class="line">            &#123;</span><br><span class="line">                cout &lt;&lt; i &lt;&lt; endl;</span><br><span class="line">                L -&#x3D; i;</span><br><span class="line">                cnt++;</span><br><span class="line">            &#125;</span><br><span class="line">            else break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; cnt &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -266,9 +370,24 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-04 16:22:05 / 修改时间：18:07:05" itemprop="dateCreated datePublished" datetime="2020-09-04T16:22:05+08:00">2020-09-04</time>
+              <time title="创建时间：2020-09-04 16:22:05" itemprop="dateCreated datePublished" datetime="2020-09-04T16:22:05+08:00">2020-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-03 21:54:54" itemprop="dateModified" datetime="2020-10-03T21:54:54+08:00">2020-10-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
+                </span>
             </span>
 
           
@@ -1106,19 +1225,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">标签</span>
       </div>
   </nav>
 </div>
